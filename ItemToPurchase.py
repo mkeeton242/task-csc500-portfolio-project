@@ -9,10 +9,18 @@
 class ItemToPurchase:
     
     # constructor function
-    def __init__(self, item_name = "", item_price = float(0), item_quantity = int(0)):
+    def __init__(self, item_name = "", item_price = float(0), item_quantity = int(0), item_description = ""):
         self.item_name = item_name
         self.item_price = item_price
         self.item_quantity = item_quantity
+        self.item_description = item_description
+    
+    # equality function
+    def __eq__(self, other):
+        if isinstance(other, ItemToPurchase):
+            return self.item_name == other.item_name
+        else:
+            return self.item_name == other
     
     # Prints the attributes of the object.
     def print_item_cost(self):
@@ -43,4 +51,5 @@ def main():
     items_total = item1.item_price * item1.item_quantity + item2.item_price * item2.item_quantity
     print('Total: ${:.2f}'.format(items_total))
 
-main()
+if __name__ == "__main__":
+    main()
