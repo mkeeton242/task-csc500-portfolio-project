@@ -5,7 +5,7 @@
 # Description:  Creates the ShoppingCart class.
 ###
 
-from ItemToPurchase import ItemToPurchase
+import ItemToPurchase as itp
 
 # Create the ShoppingCart class.
 class ShoppingCart:
@@ -28,14 +28,16 @@ class ShoppingCart:
             print('Item not found in cart. Nothing removed.')
     
     # Modifies an item's description, price, and/or quantity.
-    def modify_item(self, item):
-        if item.item_name in self.cart_items:
-            item_index = self.cart_items.index(item.item_name)
-            temp_item = self.cart_items[item_index]
-            if item.item_price != 0 and item.item_quantity != 0 and item.item_description != '':
-                temp_item.item_price = item.item_price
-                temp_item.item_quantity = item.item_quantity
-                temp_item.item_description = item.item_description
+    def modify_item(self, temp_item):
+        if temp_item.item_name in self.cart_items:
+            item_index = self.cart_items.index(temp_item.item_name)
+            item = self.cart_items[item_index]
+            if temp_item.item_price != 0:
+                item.item_price = temp_item.item_price
+            if temp_item.item_quantity != 0:
+                item.item_quantity = temp_item.item_quantity
+            if temp_item.item_description != '':
+                item.item_description = temp_item.item_description
         else:
             print('Item not found in cart. Nothing modified.') 
     
@@ -74,6 +76,36 @@ class ShoppingCart:
             for item in self.cart_items:
                 print(f'{item.item_name:s}: {item.item_description:s}')
 
+# Adds an item to the shopping cart.
+def menu_add_item(shopping_cart):
+    print('ADD ITEM TO CART')
+    new_item = itp.item_prompt()
+    shopping_cart.add_item(new_item)
+
+# Removes an item from the shopping cart.
+def menu_remove_item(shopping_cart):
+    print('REMOVE ITEM FROM CART')
+    item_name = input('Enter name of item to remove:\n')
+    shopping_cart.remove_item(item_name)
+
+# Changes the quantity of an item in the shopping cart.
+def menu_change_item_qty(shopping_cart):
+    print('CHANGE ITEM QUANTITY')
+    item_name = input('Enter the item name:\n')
+    item_quantity = int(input('Enter the new quantity:\n'))
+    modified_item = itp.ItemToPurchase(item_name, 0, item_quantity, "")
+    shopping_cart.modify_item(modified_item)
+
+# Output the items' descriptions from the shopping cart.
+def menu_output_descriptions(shopping_cart):
+    print('OUTPUT ITEMS\' DESCRIPTIONS')
+    shopping_cart.print_descriptions()
+
+# Output the items from the shopping cart.
+def menu_output_shopping_cart(shopping_cart):
+    print('OUTPUT SHOPPING CART')
+    shopping_cart.print_total()
+
 # Outputs a menu of options to manipulate the shopping cart.
 def print_menu(shopping_cart):
     menu_string = 'MENU\na - Add item to cart\nr - Remove item from cart\nc - Change item quantity\ni - Output items\' descriptions\no - Output shopping cart\nq - Quit'
@@ -82,11 +114,15 @@ def print_menu(shopping_cart):
     
     while menu_option != 'q':
         if menu_option == 'i':
-            print('OUTPUT ITEMS\' DESCRIPTIONS')
-            shopping_cart.print_descriptions()
+            menu_output_descriptions(shopping_cart)
         elif menu_option == 'o':
-            print('OUTPUT SHOPPING CART')
-            shopping_cart.print_total()
+            menu_output_shopping_cart(shopping_cart)
+        elif menu_option == 'a':
+            menu_add_item(shopping_cart)
+        elif menu_option == 'r':
+            menu_remove_item(shopping_cart)
+        elif menu_option == 'c':
+            menu_change_item_qty(shopping_cart)
         else:
             print('INVALID INPUT')
         
@@ -95,9 +131,9 @@ def print_menu(shopping_cart):
         
 def main():
     shopping_cart = ShoppingCart('John Doe', 'February 1, 2020')
-    shopping_cart.add_item(ItemToPurchase('Nike Romaleos', 189, 2, 'Volt color, Weightlifting shoes'))
-    shopping_cart.add_item(ItemToPurchase('Chocolate Chips', 3, 5, 'Semi-sweet'))
-    shopping_cart.add_item(ItemToPurchase('Powerbeats 2 Headphones', 128, 1, 'Bluetooth headphones'))
+    shopping_cart.add_item(itp.ItemToPurchase('Nike Romaleos', 189, 2, 'Volt color, Weightlifting shoes'))
+    shopping_cart.add_item(itp.ItemToPurchase('Chocolate Chips', 3, 5, 'Semi-sweet'))
+    shopping_cart.add_item(itp.ItemToPurchase('Powerbeats 2 Headphones', 128, 1, 'Bluetooth headphones'))
     print_menu(shopping_cart)
     
 if __name__ == "__main__":

@@ -30,10 +30,11 @@ class ItemToPurchase:
 # Prompts the user for the inputs to create an ItemToPurchase object.
 def item_prompt():
     
-    item_name = input('Enter the item name: ')
-    item_price = float(input('Enter the item price: '))
-    item_quantity = int(input('Enter the item quantity: '))
-    new_item = ItemToPurchase(item_name, item_price, item_quantity)
+    item_name = input('Enter the item name:\n')
+    item_description = input('Enter the item description:\n')
+    item_price = float(input('Enter the item price:\n'))
+    item_quantity = int(input('Enter the item quantity:\n'))
+    new_item = ItemToPurchase(item_name, item_price, item_quantity, item_description)
     return new_item
 
 def main():
